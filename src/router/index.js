@@ -1,46 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Layout from '@/layout'
 
-const routes = [
+export const constantRoutes = [
     {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/about',
-        name: 'About',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        path: '/dashboard',
+        component: Layout,
+        children: [
+            {
+                path: '',
+                component: () => import('@/views/dashboard/index'),
+                name: 'Dashboard',
+                meta: { title: '首页', icon: 'dashboard', affix: true }
+            }
+        ]
     },
     {
         path: '/table',
         name: 'Table',
-        component: () => import('@/views/page/table.vue')
+        component: () => import('@/views/page/table.vue'),
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+
     },
     {
         path: '/form',
         name: 'Form',
-        component: () => import('@/views/page/form.vue')
-    },
-    {
-        path: '/capi',
-        name: 'Capi',
-        component: () => import('@/views/capi/page.vue')
+        component: () => import('@/views/page/form.vue'),
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+
     },
     {
         path: '/matting',
         name: 'Matting',
-        component: () => import('@/views/page/matting.vue')
+        component: () => import('@/views/page/matting.vue'),
+        meta: { title: '首页', icon: 'dashboard', affix: true }
     },
 
 ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
+    routes: constantRoutes
 })
 
 export default router

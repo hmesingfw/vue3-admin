@@ -5,7 +5,7 @@
                 <el-button type="primary" icon="el-icon-plus">新增</el-button>
             </div>
             <div class="right-handle">
-                <el-dropdown trigger="click" @command="changeCommand">
+                <el-dropdown trigger="click" @command="ChangeCommand">
                     <el-tooltip effect="dark" content="密度" placement="top">
                         <i class="el-icon-finished h-icon" />
                     </el-tooltip>
@@ -19,7 +19,7 @@
                     </template>
                 </el-dropdown>
                 <el-tooltip effect="dark" content="刷新" placement="top">
-                    <i class="el-icon-refresh h-icon" @click="tableReflash(1000)" />
+                    <i class="el-icon-refresh h-icon" @click="TableReflash(1000)" />
                 </el-tooltip>
                 <!-- <el-tooltip effect="dark" content="列设置" placement="top">
                             <i class="el-icon-setting h-icon" />
@@ -27,15 +27,15 @@
                 <el-popover placement="bottom" :width="240" trigger="click" popper-class="h-table-col-settings">
                     <el-row type="flex" justify="space-between" align="middle" class="h-table-col-settings__header">
                         <div>
-                            <el-checkbox v-model="settingCheckAll" :indeterminate="isIndeterminate" @change="changeColSettingAll">列展示</el-checkbox>
+                            <el-checkbox v-model="settingCheckAll" :indeterminate="isIndeterminate" @change="ChangeColSettingAll">列展示</el-checkbox>
                         </div>
-                        <el-button type="text">重置</el-button>
+                        <el-button type="text" @click="DefaultColSettings(true)">重置</el-button>
                     </el-row>
                     <el-row class="h-table-col-settings__group">
-                        <draggable v-model="colSettings" draggable=".drag" animation="300" @end="handleSettingsCol()">
+                        <draggable v-model="colSettings" draggable=".drag" animation="300" @end="ChangeSettingsCol()">
                             <div v-for="(item, i) in colSettings" :key="i" class="item" :class="{'drag':item.prop != 'selection'}">
                                 <i :class="item.prop == 'selection' ? 'el-icon-menu' : 'el-icon-rank'" />
-                                <el-checkbox v-model="item.status" @change="handleSettingsCol">{{ item.label }}</el-checkbox>
+                                <el-checkbox v-model="item.status" @change="ChangeSettingsCol">{{ item.label }}</el-checkbox>
                             </div>
                         </draggable>
                     </el-row>
@@ -54,8 +54,8 @@
                 :page-size="pageData.size"
                 :layout="page.layout"
                 :total="pageData.total"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
+                @size-change="PageSizeChange"
+                @current-change="PageCurrentChange"
             />
         </div>
     </div>
@@ -114,7 +114,7 @@ export default {
         })
         onMounted(() => {
             query();
-            initSettingsCol();
+            InitSettingsCol();
         })
         /* 查询列表
         * parentParams 父组件查询传参
@@ -147,24 +147,24 @@ export default {
         }
 
         /* 操作分页 */
-        function handleSizeChange(val) {
+        function PageSizeChange(val) {
             pageData.size = val;
             query();
         }
-        function handleCurrentChange(val) {
+        function PageCurrentChange(val) {
             pageData.page = val;
             query();
         }
         /* 改变表格的大小 */
-        function changeCommand(command) {
+        function ChangeCommand(command) {
             setupTableAttrs.size = command;
             tableSize.value = command;
-            tableReflash();
+            TableReflash();
         }
         /* 重新刷新table
         *  time  列表刷新时间  number 毫秒
         */
-        async function tableReflash(time = 0) {
+        async function TableReflash(time = 0) {
             tableLoading.value = true;
             tableStatus.value = false;
             await nextTick();
@@ -176,7 +176,7 @@ export default {
             }
         }
         /* 初始化设置列设置参数 */
-        function initSettingsCol() {
+        function InitSettingsCol() {
             try {
                 const localSettings = localStorage.getItem('col-settings-' + props.ref);
                 if (localSettings) {
@@ -194,16 +194,25 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+            DefaultColSettings();
+        }
+        /* 默认列设置，赋值
+        *   reset 是否重置  boolean
+        */
+        function DefaultColSettings(reset) {
             colSettings.value = props.params.map(item => {
                 return {
                     ...item,
                     status: true,
                 }
             });
+            if (reset === true) {
+                ChangeSettingsCol(true);
+            }
         }
 
         /* 设置列参数方法 */
-        function handleSettingsCol(status) {
+        function ChangeSettingsCol(status) {
             isIndeterminate.value = colSettings.value.some(item => item.status !== status); // indeterminate 属性用以表示 checkbox 的不确定状态
             settingCheckAll.value = colSettings.value.every(item => item.status === true);
 
@@ -214,10 +223,10 @@ export default {
                 console.log(error);
             }
 
-            tableReflash(500);
+            TableReflash(500);
         }
         /* 列设置，全选操作 */
-        function changeColSettingAll(status) {
+        function ChangeColSettingAll(status) {
             isIndeterminate.value = false;
             colSettings.value = props.params.map(item => {
                 return {
@@ -225,7 +234,7 @@ export default {
                     status: status,
                 }
             });
-            tableReflash(500);
+            TableReflash(500);
         }
 
         /* 获取分页信息 */
@@ -237,13 +246,12 @@ export default {
             tableData,
             setupTableAttrs,
             pageData,
-            handleSizeChange,
-            handleCurrentChange,
+            PageSizeChange, PageCurrentChange,
             tableSize,
-            changeCommand,
-            tableReflash,
-            colSettings, handleSettingsCol,
-            isIndeterminate, settingCheckAll, changeColSettingAll
+            ChangeCommand,
+            TableReflash,
+            colSettings, ChangeSettingsCol, DefaultColSettings,
+            isIndeterminate, settingCheckAll, ChangeColSettingAll
         }
     },
     methods: {

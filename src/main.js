@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import installElementPlus from './plugins/element.js'
 import importComponent from './plugins/import-component.js'
-import hCust from '@/components/h-cust'
+import hCust from '@/components/HCust'
 import axios from '@/config/axios-config'
 import icons from '@/icons/index'
 

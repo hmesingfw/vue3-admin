@@ -28,6 +28,7 @@
 <script>
 import ScrollPane from './ScrollPane'
 import path from 'path'
+import { constantRoutes } from '@/router/index'
 
 export default {
     components: { ScrollPane },
@@ -37,16 +38,14 @@ export default {
             top: 0,
             left: 0,
             selectedTag: {},
-            affixTags: []
+            affixTags: [],
+            routes: constantRoutes
         }
     },
     computed: {
         visitedViews() {
             return this.$store.state.tagsView.visitedViews
         },
-        // routes() {
-        //     return this.$store.state.permission.routes
-        // }
     },
     watch: {
         $route() {

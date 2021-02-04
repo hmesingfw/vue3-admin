@@ -12,12 +12,11 @@ export default {
             default: ''
         }
     },
-    setup(props) {
-        console.log(props);
+    render() {
         return <>
-            <svg-icon icon-class={props.icon} />
-            <span slot='title'>{props.title}</span>
+            <svg-icon icon-class={this.icon} />
+            <span slot='title'>{this.title}</span>
         </>
-    }
+    },
 }
 </script>

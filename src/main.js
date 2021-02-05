@@ -13,7 +13,8 @@ import '@/styles/index.scss' // global css
 import '@/styles/main.scss'
 
 const app = createApp(App)
-app.use(store).use(router);
+app.use(store);
+app.use(router);
 
 app.config.globalProperties.$http = axios; // 挂载全局变量
 

@@ -4,7 +4,6 @@
             <h-query-form :model="queryModel" :params="queryParams" />
             <h-table ref="tTableRef" v-model:selection="multipleSelection" url="https://mock.yonyoucloud.com/mock/8636/table" :params="tableParams" />
         </el-card>
-
         <h-drawer v-model="drawer" title="弹框">
             <div v-for="i in 1000" :key="i">sdff</div>
 
@@ -43,7 +42,6 @@ export default {
                         <el-button type='text' onClick={() => this.query(row)} icon='el-icon-delete'>查询</el-button>
                         <el-button type='text' onClick={() => this.openDrawer(row)} icon='el-icon-delete'>打开弹框</el-button>
                         <el-button type='text' onClick={() => this.handleTableRef(row)} icon='el-icon-delete'>打开Ref</el-button>
-
                     </div>
                 },],
             drawer: false,

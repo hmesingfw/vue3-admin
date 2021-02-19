@@ -75,10 +75,29 @@
       color: $subMenuActiveText !important;
     }
 
+    
+    .is-active,
+    .el-submenu__title .is-active {
+      background: $subMenuActiveBg !important;
+    }
+    
+    
+    // menu before
+    .is-active:before,
+    .el-submenu__title.is-active:before {
+        content: "";
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 2px;
+        background: #409eff;
+        position: absolute;
+    }
+
     & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
+      background-color: $subMenuBg ;
 
       &:hover {
         background-color: $subMenuHover !important;

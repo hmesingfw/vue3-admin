@@ -119,21 +119,6 @@ Vue.prototype.HandleDelete = async function (url, row, func, { idKey = 'id' } = 
     func();
 };
 
-/** 数据深拷贝 */
-Vue.prototype.DeepCopy = function (obj) {
-    var result = Array.isArray(obj) ? [] : {};
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-                result[key] = this.DeepCopy(obj[key]); // 递归复制
-            } else {
-                result[key] = obj[key];
-            }
-        }
-    }
-    return result;
-}
-
 /** 列表匹配字段
  * key      枚举列表
  * value    匹配值

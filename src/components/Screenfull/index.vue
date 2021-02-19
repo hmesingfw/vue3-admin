@@ -17,14 +17,15 @@ export default {
     mounted() {
         this.init()
     },
-    beforeDestroy() {
+    beforeUnmount() {
         this.destroy()
     },
     methods: {
         click() {
+            console.log(screenfull, screenfull.isFullscreen);
             if (!screenfull.enabled) {
                 this.$message({
-                    message: 'you browser can not work',
+                    message: '不允许进入全屏',
                     type: 'warning'
                 })
                 return false

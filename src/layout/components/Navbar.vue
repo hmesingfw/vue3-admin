@@ -5,43 +5,36 @@
         <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
         <div class="right-menu">
-            <template v-if="device!=='mobile'">
-                <!-- <search id="header-search" class="right-menu-item" /> -->
+            <el-tooltip content="全屏" effect="dark" placement="bottom">
+                <screenfull id="screenfull" class="right-menu-item hover-effect" />
+            </el-tooltip>
 
-                <!-- <error-log class="errLog-container right-menu-item hover-effect" /> -->
+            <el-divider direction="vertical" />
 
-                <el-tooltip content="全屏" effect="dark" placement="bottom">
-                    <screenfull id="screenfull" class="right-menu-item hover-effect" />
-                </el-tooltip>
+            <div class="right-menu-item">2021年12月19日 星期五</div>
 
-                <!-- <el-tooltip content="组件尺寸" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-                </el-tooltip>-->
-            </template>
+            <el-divider direction="vertical" />
 
-            <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-                <div class="avatar-wrapper">
-                    <span>loayout</span>
+            <el-dropdown trigger="click">
+                <div class="right-menu-item hover-effect">
+                    <span>张三</span>
                     <i class="el-icon-caret-bottom" />
                 </div>
-                <el-dropdown-menu slot="dropdown">
-                    <router-link to="/profile/index">
-                        <el-dropdown-item>主页</el-dropdown-item>
-                    </router-link>
-                    <router-link to="/dashboard">
-                        <el-dropdown-item>首页</el-dropdown-item>
-                    </router-link>
-                    <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>文档</el-dropdown-item>
-                    </a>-->
-                    <el-dropdown-item divided>
-                        <span style="display:block;" @click="logout">退出</span>
-                    </el-dropdown-item>
-                </el-dropdown-menu>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <router-link to="/dashboard">
+                            <el-dropdown-item>首页</el-dropdown-item>
+                        </router-link>
+                        <el-dropdown-item divided>
+                            <span style="display:block;" @click="logout">退出</span>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
             </el-dropdown>
+
+            <el-divider direction="vertical" />
+
+            <div class="right-menu-item" @click="logout">退出</div>
         </div>
     </div>
 </template>
@@ -50,25 +43,22 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-// import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
-// import SizeSelect from '@/components/SizeSelect'
-// import Search from '@/components/HeaderSearch'
+import { createUniqueString } from '@/utils'
 
 export default {
     components: {
         Breadcrumb,
         Hamburger,
-        // ErrorLog,
         Screenfull,
-        // SizeSelect,
-        // Search
     },
     computed: {
         ...mapGetters([
             'sidebar',
-            'device'
         ])
+    },
+    created() {
+        console.log(createUniqueString());
     },
     methods: {
         toggleSideBar() {
@@ -107,11 +97,6 @@ export default {
         float: left;
     }
 
-    .errLog-container {
-        display: inline-block;
-        vertical-align: top;
-    }
-
     .right-menu {
         float: right;
         height: 100%;
@@ -124,10 +109,8 @@ export default {
         .right-menu-item {
             display: inline-block;
             padding: 0 8px;
-            height: 100%;
-            font-size: 18px;
             color: #5a5e66;
-            vertical-align: text-bottom;
+            font-size: 14px;
 
             &.hover-effect {
                 cursor: pointer;
@@ -139,28 +122,9 @@ export default {
             }
         }
 
-        .avatar-container {
-            margin-right: 30px;
-
-            .avatar-wrapper {
-                margin-top: 5px;
-                position: relative;
-
-                .user-avatar {
-                    cursor: pointer;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 10px;
-                }
-
-                .el-icon-caret-bottom {
-                    cursor: pointer;
-                    position: absolute;
-                    right: -20px;
-                    top: 25px;
-                    font-size: 12px;
-                }
-            }
+        .vertical {
+            display: inline-block;
+            height: 100%;
         }
     }
 }

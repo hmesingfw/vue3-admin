@@ -3,6 +3,7 @@
  */
 
 /**
+ * 路径
  * @param {string} path
  * @returns {Boolean}
  */
@@ -11,15 +12,7 @@ export function isExternal(path) {
 }
 
 /**
- * @param {string} str
- * @returns {Boolean}
- */
-export function validUsername(str) {
-    const valid_map = ['admin', 'editor']
-    return valid_map.indexOf(str.trim()) >= 0
-}
-
-/**
+ * 网址地址
  * @param {string} url
  * @returns {Boolean}
  */
@@ -29,6 +22,7 @@ export function validURL(url) {
 }
 
 /**
+ * 小写字母
  * @param {string} str
  * @returns {Boolean}
  */
@@ -38,6 +32,7 @@ export function validLowerCase(str) {
 }
 
 /**
+ * 大写字母
  * @param {string} str
  * @returns {Boolean}
  */
@@ -47,6 +42,7 @@ export function validUpperCase(str) {
 }
 
 /**
+ * 字母
  * @param {string} str
  * @returns {Boolean}
  */
@@ -56,6 +52,7 @@ export function validAlphabets(str) {
 }
 
 /**
+ * 邮箱
  * @param {string} email
  * @returns {Boolean}
  */
@@ -65,6 +62,7 @@ export function validEmail(email) {
 }
 
 /**
+ * 字符串
  * @param {string} str
  * @returns {Boolean}
  */
@@ -76,6 +74,7 @@ export function isString(str) {
 }
 
 /**
+ * 数组
  * @param {Array} arg
  * @returns {Boolean}
  */

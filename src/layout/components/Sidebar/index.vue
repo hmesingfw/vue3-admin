@@ -60,3 +60,20 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+// .scrollbar-wrapper .el-menu-item.is-active:before,
+// .scrollbar-wrapper .el-submenu__title.is-active:before {
+//     content: "";
+//     top: 0;
+//     left: 0;
+//     bottom: 0;
+//     width: 2px;
+//     background: #409eff;
+//     position: absolute;
+// }
+
+// .scrollbar-wrapper .el-menu-item.is-active,
+// .scrollbar-wrapper .el-submenu__title.is-active {
+//     background-color: rgba(0, 0, 0, 0.8) !important;
+// }
+</style>

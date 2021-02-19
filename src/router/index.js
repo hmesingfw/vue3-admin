@@ -33,6 +33,19 @@ export const constantRoutes = [
             },
         ]
     },
+    {
+        path: '/2',
+        component: Layout,
+        meta: { title: '首页1', icon: 'dashboard', },
+        children: [
+            {
+                path: '',
+                component: () => import('@/views/page/table'),
+                name: 'Dashboard',
+                meta: { title: '首页1', icon: 'dashboard', affix: true }
+            },
+        ]
+    },
 ]
 
 const router = createRouter({

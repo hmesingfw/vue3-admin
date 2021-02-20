@@ -11,13 +11,13 @@
 
             <el-divider direction="vertical" />
 
-            <div class="right-menu-item">2021年12月19日 星期五</div>
+            <div class="right-menu-item">{{ time.y }}年{{ time.m }}月{{ time.d }}日 &nbsp;&nbsp; 星期{{ time.w }}</div>
 
             <el-divider direction="vertical" />
 
             <el-dropdown trigger="click">
                 <div class="right-menu-item hover-effect">
-                    <span>张三</span>
+                    <span>张三，{{ time.h }}好！</span>
                     <i class="el-icon-caret-bottom" />
                 </div>
                 <template #dropdown>
@@ -44,7 +44,6 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
-import { createUniqueString } from '@/utils'
 
 export default {
     components: {
@@ -57,8 +56,20 @@ export default {
             'sidebar',
         ])
     },
+    data() {
+        return {
+            time: {},
+        }
+    },
     created() {
-        console.log(createUniqueString());
+        const date = new Date();
+        this.time = {
+            y: date.getFullYear(),
+            m: date.getMonth() + 1,
+            d: date.getDate(),
+            w: ['日', '一', '二', '三', '四', '五', '六'][date.getDay()],
+            h: date.getHours() > 11 ? '上午' : '下午',
+        }
     },
     methods: {
         toggleSideBar() {

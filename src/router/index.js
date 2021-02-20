@@ -9,8 +9,8 @@ export const constantRoutes = [
         children: [
             {
                 path: '',
-                component: () => import('@/views/page/table'),
-                name: 'Dashboard',
+                component: () => import('@/views/page/item'),
+                name: '1',
                 meta: { title: '首页1', icon: 'dashboard', affix: true }
             }, {
                 path: '/table',

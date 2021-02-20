@@ -2,28 +2,24 @@
     <div :ref="ref" class="h-table">
         <el-row class="h-table-handle" type="flex" justify="space-between">
             <div>
-                <el-button type="primary" icon="el-icon-plus">新增</el-button>
+                <el-button>
+                    <i class="el-icon-plus" /> 搜索
+                </el-button>
+                <el-button>
+                    <i class="el-icon-plus" />新增
+                </el-button>
+                <el-button>
+                    <i class="el-icon-plus" />新增
+                </el-button>
+                <el-button>
+                    <i class="el-icon-plus" />新增
+                </el-button>
+                <slot name="left-handle" />
             </div>
             <div class="right-handle">
-                <el-dropdown trigger="click" @command="ChangeCommand">
-                    <el-tooltip effect="dark" content="密度" placement="top">
-                        <i class="el-icon-finished h-icon" />
-                    </el-tooltip>
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item :disabled="tableSize == ''" command>默认</el-dropdown-item>
-                            <el-dropdown-item v-if="elementSize != 'medium'" :disabled="tableSize == 'medium'" command="medium">宽松</el-dropdown-item>
-                            <el-dropdown-item v-if="elementSize != 'small'" :disabled="tableSize == 'small'" command="small">中等</el-dropdown-item>
-                            <el-dropdown-item v-if="elementSize != 'mini'" :disabled="tableSize == 'mini'" command="mini">紧凑</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
-                <el-tooltip effect="dark" content="刷新" placement="top">
-                    <i class="el-icon-refresh h-icon" @click="TableReflash(1000)" />
-                </el-tooltip>
-                <!-- <el-tooltip effect="dark" content="列设置" placement="top">
-                            <i class="el-icon-setting h-icon" />
-                </el-tooltip>-->
+                <slot name="right-handle" />
+                <el-button icon="el-icon-refresh" @click="TableReflash(1000)">刷新</el-button>
+
                 <el-popover placement="bottom" :width="240" trigger="click" popper-class="h-table-col-settings">
                     <el-row type="flex" justify="space-between" align="middle" class="h-table-col-settings__header">
                         <div>
@@ -41,7 +37,10 @@
                     </el-row>
 
                     <template #reference>
-                        <i class="el-icon-setting h-icon" />
+                        <el-button>
+                            <i class="el-icon-setting" /> 显示列
+                            <i class="el-icon-caret-bottom" />
+                        </el-button>
                     </template>
                 </el-popover>
             </div>
@@ -67,7 +66,6 @@ import http from '@/config/axios-config'
 import hMain from './main'
 import { VueDraggableNext } from 'vue-draggable-next'
 import { ElMessage } from 'element-plus'
-import { size } from '@/plugins/element'
 export default {
     components: {
         hMain, draggable: VueDraggableNext,
@@ -90,16 +88,10 @@ export default {
             })
         }
     },
-    data() {
-        return {
-            elementSize: size,
-        }
-    },
     setup(props, { attrs, slots, emit }) {
         const tableLoading = ref(false);
         const tableStatus = ref(true); // 表格if
         const tableData = ref([]); // 列表数据
-        const tableSize = ref(''); // 列表大小
         const pageData = reactive({ total: 0, page: 1, size: 10 }); // 分页参数
         const colSettings = ref([]); // 列的设置参数
         const isIndeterminate = ref(false); // 列的设置参数,  用以表示 checkbox 的不确定状态，一般用于实现全选的效果
@@ -109,7 +101,6 @@ export default {
             'stripe': true, //  带斑马纹表格
             'header-row-class-name': 'h-table-header-name',
             'row-class-name': 'table-row-name',
-            size: tableSize.value,
             ...props.tableAttrs,
         })
         onMounted(() => {
@@ -155,12 +146,7 @@ export default {
             pageData.page = val;
             query();
         }
-        /* 改变表格的大小 */
-        function ChangeCommand(command) {
-            setupTableAttrs.size = command;
-            tableSize.value = command;
-            TableReflash();
-        }
+
         /* 重新刷新table
         *  time  列表刷新时间  number 毫秒
         */
@@ -247,8 +233,6 @@ export default {
             setupTableAttrs,
             pageData,
             PageSizeChange, PageCurrentChange,
-            tableSize,
-            ChangeCommand,
             TableReflash,
             colSettings, ChangeSettingsCol, DefaultColSettings,
             isIndeterminate, settingCheckAll, ChangeColSettingAll

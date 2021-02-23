@@ -1,6 +1,6 @@
 <template>
     <div style="padding:0 10px">
-        <h-table ref="tTableRef" v-model:selection="multipleSelection" url="https://mock.yonyoucloud.com/mock/8636/table" :params="tableParams" :table-attrs="{border:true}">
+        <h-table ref="tTableRef" v-model:selection="multipleSelection" url="https://mock.yonyoucloud.com/mock/8636/table" :params="tableParams" :table-attrs="{border:true}" @edit="edit">
             <template #left-handle>
                 <el-button icon="el-icon-refresh" @click="TableReflash(1000)">刷新</el-button>
                 <el-button icon="el-icon-refresh" @click="TableReflash(1000)">刷新</el-button>
@@ -45,7 +45,7 @@ export default {
                 {
                     prop: 'status', label: '操作', attr: { width: 500, },
                     formatF: row => <div>
-                        <el-button type='text' onClick={() => this.query(row)} icon='el-icon-delete'>查询</el-button>
+                        <el-button type='text' onClick={() => this.edit(row)} icon='el-icon-delete'>编辑</el-button>
                         <el-button type='text' onClick={() => this.openDrawer(row)} icon='el-icon-delete'>打开弹框</el-button>
                         <el-button type='text' onClick={() => this.handleTableRef(row)} icon='el-icon-delete'>打开Ref</el-button>
                     </div>
@@ -77,8 +77,12 @@ export default {
         }
     },
     methods: {
+        edit(row = { a: 1 }) {
+            console.log(row);
+            this.drawer = true;
+        },
         TableReflash() {
-            console.log('---');
+            console.log(this.multipleSelection);
         },
         handleTableRef() {
             const ref = this.$refs.tTableRef.getTableRef();

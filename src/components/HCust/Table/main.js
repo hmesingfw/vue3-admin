@@ -9,7 +9,7 @@ export default {
         tableAttrs: { type: Object, default: () => { } },
     },
     render() {
-        return <el-table ref='hCustTableRef' data={this.data} on-selection-change={this.selectionChange} {...this.tableAttrs} >
+        return <el-table ref='hCustTableRef' data={this.data} onSelectionChange={this.selectionChange} {...this.tableAttrs} >
             {
                 this.params.map(item => {
                     if (!item || !item.status) return;
@@ -39,7 +39,7 @@ export default {
         },
         /* 多选操作 */
         selectionChange(val) {
-            this.$emit('update:selection', val);
+            this.$emit('selections', val);
         },
         getTableRef() {
             return this.$refs.hCustTableRef;

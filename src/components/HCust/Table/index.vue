@@ -5,15 +5,17 @@
                 <el-button>
                     <i class="el-icon-plus" /> 搜索
                 </el-button>
-                <el-button>
-                    <i class="el-icon-plus" />新增
-                </el-button>
-                <el-button>
-                    <i class="el-icon-plus" />新增
-                </el-button>
-                <el-button>
-                    <i class="el-icon-plus" />新增
-                </el-button>
+                <slot name="add">
+                    <el-button @click="EditInfo()">
+                        <i class="el-icon-plus" />新增
+                    </el-button>
+                </slot>
+                <slot name="del">
+                    <el-button plain @click="DeleteInfo()">
+                        <i class="el-icon-delete" style="color:#F56C6C" /> &nbsp;批量删除
+                    </el-button>
+                </slot>
+
                 <slot name="left-handle" />
             </div>
             <div class="right-handle">
@@ -45,7 +47,7 @@
                 </el-popover>
             </div>
         </el-row>
-        <h-main v-if="tableStatus" ref="hCustTableRef" v-model:selection="selection" v-loading="tableLoading" :data="tableData" :table-attrs="setupTableAttrs" :params="colSettings" />
+        <h-main v-if="tableStatus" ref="hCustTableRef" v-loading="tableLoading" :selection="selection" :data="tableData" :table-attrs="setupTableAttrs" :params="colSettings" @selections="Selection" />
         <div class="h-page">
             <el-pagination
                 :current-page="pageData.page"
@@ -107,8 +109,9 @@ export default {
             query();
             InitSettingsCol();
         })
-        /* 查询列表
-        * parentParams 父组件查询传参
+        /**
+         *  查询列表
+         * parentParams 父组件查询传参
         */
         async function query(parentParams = {}) {
             /* 传页码赋值 */
@@ -147,8 +150,9 @@ export default {
             query();
         }
 
-        /* 重新刷新table
-        *  time  列表刷新时间  number 毫秒
+        /**
+         *  重新刷新table
+         *  time  列表刷新时间  number 毫秒
         */
         async function TableReflash(time = 0) {
             tableLoading.value = true;
@@ -161,7 +165,9 @@ export default {
                 tableLoading.value = false;
             }
         }
-        /* 初始化设置列设置参数 */
+        /**
+         *  初始化设置列设置参数
+         */
         function InitSettingsCol() {
             try {
                 const localSettings = localStorage.getItem('col-settings-' + props.ref);
@@ -182,8 +188,9 @@ export default {
             }
             DefaultColSettings();
         }
-        /* 默认列设置，赋值
-        *   reset 是否重置  boolean
+        /**
+         *  默认列设置，赋值
+         *  reset 是否重置  boolean
         */
         function DefaultColSettings(reset) {
             colSettings.value = props.params.map(item => {
@@ -223,6 +230,24 @@ export default {
             TableReflash(500);
         }
 
+        /**
+         * 编辑内容
+         */
+        function EditInfo(info) {
+            emit('edit', info)
+        }
+        /**
+         * 删除内容
+         */
+        function DeleteInfo(list) {
+            emit('del', list)
+        }
+        /**
+         *  多选
+         */
+        function Selection(val) {
+            this.$emit('update:selection', val);
+        }
         /* 获取分页信息 */
         emit('get-page', pageData);
         return {
@@ -235,14 +260,17 @@ export default {
             PageSizeChange, PageCurrentChange,
             TableReflash,
             colSettings, ChangeSettingsCol, DefaultColSettings,
-            isIndeterminate, settingCheckAll, ChangeColSettingAll
+            isIndeterminate, settingCheckAll, ChangeColSettingAll,
+            EditInfo, DeleteInfo,
+            Selection
         }
     },
     methods: {
         // 获取table ref 对象
         getTableRef() {
             return this.$refs.hCustTableRef.getTableRef();
-        }
+        },
+
     },
 }
 </script>
